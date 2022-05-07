@@ -1,0 +1,7 @@
+/* Here where the custom global classes live */
+.w-full {
+  width: 100%;
+}
+.relative {
+  position: relative;
+}
