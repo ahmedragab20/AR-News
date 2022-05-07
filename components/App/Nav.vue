@@ -92,8 +92,18 @@ export default {
   methods: {
     appModeHandler() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark
+      // localStorage.setItem('useDarkTheme', this.$vuetify.theme.dark.toString())
     },
     dateHandler: dateHandler,
+  },
+  mounted() {
+    // const theme = localStorage.getItem('useDarkTheme')
+    // console.log(theme)
+    // if (theme) {
+    //   if (theme == 'true') {
+    //     this.$vuetify.theme.dark = true
+    //   } else this.$vuetify.theme.dark = false
+    // }
   },
 }
 </script>

@@ -2,18 +2,23 @@
   <div class="banner">
     <section class="overlay">
       <div class="weather d-flex justify-center align-center">
-        <div class="image mx-1">
-          <v-img :src="weatherImage" width="30"></v-img>
+        <div class="text-center" v-if="weatherDetailsLength > 1">
+          <p>
+            {{ `${weatherDetails.city_name}, ${weatherDetails.country}` }}
+          </p>
+          <div class="d-flex flex-column justify-center align-center">
+            <v-img :src="weatherImage" width="30"></v-img>
+            <p class="text-body-2">
+              {{ `${weatherDetails.status_text}` }}
+            </p>
+          </div>
         </div>
-        <h3 class="text-center" v-if="weatherDetailsLength > 1">
-          {{
-            `${weatherDetails.city_name}, ${weatherDetails.country} ${weatherDetails.status_code}`
-          }}
-          <v-icon>mdi-thermometer-low</v-icon>
-        </h3>
         <div class="text-center" v-else>
-          <h3>Tryna detect your location</h3>
-          <strong>make sure you've allowed it</strong>
+          <div>
+            <v-img :src="weatherImage" width="30"></v-img>
+            <h3>Tryna detect your location</h3>
+          </div>
+          <strong>make sure you've allowed it!</strong>
         </div>
       </div>
       <h3
@@ -108,26 +113,17 @@ export default {
           const lon = position.coords.longitude
 
           // api options
-          const api_key = '8450f5434dmshd37611d1dd5c49dp1fe6fdjsn7d5ba06fbd11'
-          const url =
-            'https://weatherbit-v1-mashape.p.rapidapi.com/forecast/3hourly'
-          const params = { lat: lat, lon: lon }
-          const headers = {
-            'X-RapidAPI-Host': 'weatherbit-v1-mashape.p.rapidapi.com',
-            'X-RapidAPI-Key': api_key,
-          }
+          const API_key = '24040852cab5dde7877cf010b20bd2e0'
+          const url = `https://api.openweathermap.org/data/2.5/weather`
+          const params = { lat: lat, lon: lon, appid: API_key }
           axios
-            .get(url, {
-              params,
-              headers,
-            })
+            .get(url, { params })
             .then((response) => {
               let payload = {}
               Object.assign(payload, {
-                country: response.data.country_code,
-                status_code: +response.data.state_code,
-                city_name: response.data.city_name,
-                status_text: response.data.data[0].weather.description,
+                country: response.data.sys.country,
+                city_name: response.data.name,
+                status_text: response.data.weather[0].description,
               })
               this.weatherDetails = payload
             })
