@@ -50,7 +50,6 @@ export default {
     async SearchResults(text) {
       this.waitingData = true
       let response = await this.$store.dispatch('SearchResults', text)
-      console.log(response)
       if (response?.articles.length > 30) {
         this.fetchedResults = response.articles.splice(0, 30)
       } else {
